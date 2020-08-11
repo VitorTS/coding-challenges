@@ -43,7 +43,7 @@ private:
 	Link<T> head;
 public:
 	void add(T val){
-		Link<T> temp = std::make_shared<Node<T>>(1, nullptr);
+		Link<T> temp = std::make_shared<Node<T>>(val, nullptr);
 		
 		if(head == nullptr){
 			head = std::move(temp);
@@ -65,19 +65,18 @@ public:
 	Link<T> search(T val){
 		Link<T> interator = head;
 		
-		if(interator == nullptr) return interator;
+		if(!interator) return interator;
 		
-		do{
+		while(interator != nullptr){
 			if(interator->val == val){
 				return interator;
 			}
 			
 			interator = interator->next;
-			
-		}while(interator->next != nullptr);
+		}
 		
-		Link<T> emptyLink = nullptr;
-		return emptyLink; //empty pointer for not found
+		Link<T> emptyLink = nullptr; //empty pointer for not found
+		return emptyLink; 
 	}
 };
 
@@ -88,16 +87,17 @@ int main(){
 
 	std::cout << "Adding " << val << " to list" << "\n";
 
+	list.add(1);
 	list.add(val);
 	
 	std::cout << "Searching for " << val << "\n";
 
 	Link<int> result = list.search(val);
 
-	if(result == nullptr){
-		std::cout << "Not found" << "\n";
-	}else{
+	if(result){
 		std::cout << "Found" << "\n";
+	}else{
+		std::cout << "Not found" << "\n";
 	}
 	
 }
