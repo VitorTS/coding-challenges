@@ -25,8 +25,8 @@ public:
 		Link<T> temp = std::make_shared<Node<T>>(val, nullptr);
 		
 		if(!head){
-			head = temp;
-		}else{
+			head = temp; 
+ 		}else{
 			end()->next = temp;
 		}
 	}
