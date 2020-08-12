@@ -2,27 +2,6 @@
 	based only on the conceptual definition of the data structure 
 */
 
-//Deletion − Deletes an element at the beginning of the list.
-//TODO
-
-//reverse - Creates  backwards version of the list
-//TODO
-
-//Search − Searches an element using the given key.
-//TODO
-
-//Delete − Deletes an element using the given key.
-//TODO
-
-//Insert Last − Adds an element at the end of the list.
-//TODO
-
-//Delete Last − Deletes an element from the end of the list.
-//TODO
-
-//Insert After − Adds an element after an item of the list.
-//TODO
-
 #include <iostream>
 #include <memory>
 
@@ -45,18 +24,59 @@ public:
 	void add(T val){
 		Link<T> temp = std::make_shared<Node<T>>(val, nullptr);
 		
-		if(head == nullptr){
-			head = std::move(temp);
+		if(!head){
+			head = temp;
 		}else{
-			end()->next = std::move(temp);
+			end()->next = temp;
+		}
+	}
+
+	void addFront(T val){
+		Link<T> next = head;
+		Link<T> temp = std::make_shared<Node<T>>(val, head);
+
+		head = temp;
+	}
+
+	void addAfter(T val, T searchVal){
+		Link<T> interator = head;
+		
+		while(interator){
+			if(interator->val == searchVal){
+				Link<T> temp = std::make_shared<Node<T>>(val, interator->next);
+				interator->next = temp;
+
+				return;
+			}
+
+			interator = interator->next;
+		}
+	}
+	
+	void remove(T searchVal){
+		Link<T> interator = head;
+		
+		Link<T> prev = nullptr;
+		while(interator){
+			if(interator->val == searchVal){
+				if(prev){
+					prev->next = interator->next;
+				}else{
+					head = interator->next;
+				}
+
+				return;
+			}
+
+			interator = interator->next;
 		}
 	}
 	
 	Link<T> end(){
 		Link<T> interator = head;
 		
-		while(interator->next != nullptr){
-			interator == interator->next;
+		while(interator->next){
+			interator = interator->next;
 		}
 		
 		return interator;
@@ -64,10 +84,8 @@ public:
 	
 	Link<T> search(T val){
 		Link<T> interator = head;
-		
-		if(!interator) return interator;
-		
-		while(interator != nullptr){
+
+		while(interator){
 			if(interator->val == val){
 				return interator;
 			}
@@ -78,21 +96,69 @@ public:
 		Link<T> emptyLink = nullptr; //empty pointer for not found
 		return emptyLink; 
 	}
+
+	void print(){
+		std::cout << "[";
+
+		Link<T> interator = head;
+
+		while(interator){
+			std::cout << interator->val;
+			if(interator->next) std::cout << ", ";
+			interator = interator->next;
+		}
+
+		std::cout << "]\n";
+	}
+	
+	void reverse(){
+		Link<T> iterator = head;
+
+		Link<T> prev = nullptr;
+		Link<T> temp;
+		while(iterator){
+			temp = iterator->next;
+			iterator->next = prev;
+			prev = iterator;
+			iterator = temp;
+		}
+		
+		head = prev;
+	}
+	
 };
 
 int main(){
-	int val = 12;
-
 	LinkedList<int> list{};
 
-	std::cout << "Adding " << val << " to list" << "\n";
+	std::cout << "Adding " << 1 << " to list" << "\n";
+	list.add(12);
+	list.print();
 
+	std::cout << "Adding " << 99 << " to the front of the list" << "\n";
+	list.addFront(99);
+	list.print();
+
+	std::cout << "Adding " << 1 << " to list" << "\n";
 	list.add(1);
-	list.add(val);
-	
-	std::cout << "Searching for " << val << "\n";
+	list.print();
 
-	Link<int> result = list.search(val);
+	std::cout << "Adding " << 1981 << " after " << 1 << " to list" << "\n";
+	list.addAfter(1981, 1);
+	list.print();
+
+	std::cout << "removing " << 99 << " from the list" << "\n";
+	list.remove(99);
+	list.print();
+	
+	std::cout << "reversing the list" << "\n";
+	list.reverse();
+	list.print();
+
+	int searchVal = 12;
+	std::cout << "Searching for " << searchVal << "\n";
+
+	Link<int> result = list.search(searchVal);
 
 	if(result){
 		std::cout << "Found" << "\n";
