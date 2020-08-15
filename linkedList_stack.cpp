@@ -1,4 +1,4 @@
-/* 	my own implementation of Stack using the a linkedList 
+/* 	my own implementation of Stack using a linkedList 
 */
 
 #include <iostream>
@@ -30,51 +30,23 @@ private:
 public:
 	void push(T val){
 		Link<T> temp = std::make_shared<Node<T>>(val, nullptr);
-		
-		if(!top){
-			top = temp; 
- 		}else{
-			peek()->next = temp;
-		}
+        temp->next = top;
+		top = temp;
 	}
 
 	Link<T> pop(){
-		Link<T> interator = top;
-		
-        Link<T> temp = nullptr;
-
-        if(!interator){
-            return temp;
+        if(!top){
+            return top; //nullptr for not found, because with smart pointer we never have nullptr links 
         };
 
-        if(!interator->next){
-            temp = interator;
-            interator = nullptr;
-            return temp;
-        }
+        Link<T> temp = top;
+        top = top->next;
 
-		while(interator->next->next){
-			interator = interator->next;
-		}
-
-        temp = interator->next;
-		interator->next = nullptr;
-
-		return temp;
+        return temp;
 	}
 	
 	Link<T> peek(){
-		Link<T> interator = top;
-		
-        if(!interator){
-            return interator;
-        }
-
-		while(interator->next){
-			interator = interator->next;
-		}
-		
-		return interator;
+        return top;
 	}
 
 	void print(){
