@@ -53,23 +53,26 @@ public:
 		}
 	}
 	
-	void remove(T searchVal){
+	bool remove(T searchVal){
 		Link<T> interator = head;
 		
-		Link<T> prev = nullptr;
+		if(!head){
+			return false;
+		}
+
+		if(head->val == searchVal){
+			head = head->next;
+			return true;
+		}
+
 		while(interator){
 			if(interator->val == searchVal){
-				if(prev){
-					prev->next = interator->next;
-				}else{
-					head = interator->next;
-				}
-
-				return;
+				interator = interator->next;
+				return true;
 			}
-
-			interator = interator->next;
 		}
+
+		return false;
 	}
 	
 	Link<T> end(){
