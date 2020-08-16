@@ -46,27 +46,27 @@ public:
 	}
 
 	void addAfter(T val, T searchVal){
-		Link<T> interator = head;
+		Link<T> iterator = head;
 		
-		while(interator){
-			if(interator->val == searchVal){
-				Link<T> temp = std::make_shared<Node<T>>(val, interator->next);
+		while(iterator){
+			if(iterator->val == searchVal){
+				Link<T> temp = std::make_shared<Node<T>>(val, iterator->next);
 
-                if(!interator->next){ //adding after last element
+                if(!iterator->next){ //adding after last element
                     tail = temp;
                 }
 
-				interator->next = temp;
+				iterator->next = temp;
 
 				return;
 			}
 
-			interator = interator->next;
+			iterator = iterator->next;
 		}
 	}
 	
 	bool remove(T searchVal){
-		Link<T> interator = head;
+		Link<T> iterator = head;
 		
 		if(!head){
 			return false;
@@ -74,14 +74,25 @@ public:
 
 		if(head->val == searchVal){
 			head = head->next;
+
+			if(!head){ //deleted the last element
+				tail = nullptr;
+			}
+
 			return true;
 		}
 
-		while(interator){
-			if(interator->val == searchVal){
-				interator = interator->next;
+		while(iterator->next){
+			if(iterator->next->val == searchVal){ //deleted the last element
+				if(iterator->next){
+					tail = iterator;
+				}
+				
+				iterator = iterator->next;
 				return true;
 			}
+
+			iterator = iterator->next;
 		}
 
 		return false;
@@ -92,14 +103,14 @@ public:
 	}
 	
 	Link<T> search(T val){
-		Link<T> interator = head;
+		Link<T> iterator = head;
 
-		while(interator){
-			if(interator->val == val){
-				return interator;
+		while(iterator){
+			if(iterator->val == val){
+				return iterator;
 			}
 			
-			interator = interator->next;
+			iterator = iterator->next;
 		}
 		
 		Link<T> emptyLink = nullptr; //empty pointer for not found
@@ -109,12 +120,12 @@ public:
 	void print(){
 		std::cout << "[";
 
-		Link<T> interator = head;
+		Link<T> iterator = head;
 
-		while(interator){
-			std::cout << interator->val;
-			if(interator->next) std::cout << ", ";
-			interator = interator->next;
+		while(iterator){
+			std::cout << iterator->val;
+			if(iterator->next) std::cout << ", ";
+			iterator = iterator->next;
 		}
 
 		std::cout << "]\n";
@@ -150,8 +161,8 @@ int main(){
 
     std::cout << "list tail: " << list.end()->val << "\n";
 
-	std::cout << "Adding " << 1 << " to list" << "\n";
-	list.add(1);
+	std::cout << "Adding " << 3 << " to list" << "\n";
+	list.add(3);
 	list.print();
 
 	std::cout << "Adding " << 1981 << " after " << 1 << " to list" << "\n";
@@ -162,6 +173,10 @@ int main(){
 	list.remove(99);
 	list.print();
 	
+	std::cout << "removing " << 3 << " from the list" << "\n";
+	list.remove(3);
+	list.print();
+
     std::cout << "list tail: " << list.end()->val << "\n";
 
 	std::cout << "reversing the list" << "\n";
