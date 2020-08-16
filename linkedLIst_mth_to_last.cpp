@@ -1,6 +1,6 @@
 /* 
-Given a singly linked list find the mth-to-last element of the list.
- Define mth to last such that when M = 0 the last element of the list is returned.
+    Given a singly linked list find the mth-to-last element of the list.
+    Define mth to last such that when M = 0 the last element of the list is returned.
 */
 
 /*
@@ -31,6 +31,10 @@ private:
     Link<T> tail;
 public:
     Link<T> mth_to_last(int m){
+        if(!head){ //empty list
+          return head;   
+        }
+
         Link<T> iterator = head;
         Link<T> mth;
 
@@ -63,21 +67,6 @@ public:
         
         tail = temp;
 	}
-
-	void print(){
-		std::cout << "[";
-
-		Link<T> iterator = head;
-
-		while(iterator){
-			std::cout << iterator->val;
-			if(iterator->next) std::cout << ", ";
-			iterator = iterator->next;
-		}
-
-		std::cout << "]\n";
-	}
-	
 };
 
 int main(){
